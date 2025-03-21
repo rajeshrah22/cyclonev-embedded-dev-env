@@ -4,8 +4,8 @@ FROM ubuntu:22.04
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Update and install dependencies
-RUN apt update && apt upgrade -y
-RUN apt install -y \
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y \
 	screen \
 	openocd \
 	gdb-multiarch \
@@ -29,6 +29,7 @@ RUN apt install -y \
 	ftp-upload \
 	gdisk \
 	git \
+	git-email \
 	libattr1-dev \
 	libcap-ng-dev \
 	libfdt-dev \
@@ -64,8 +65,18 @@ RUN apt install -y \
 	zlib1g-dev \
 	gcc-arm-linux-gnueabihf
 
-# Clean up
-RUN apt clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+	apt-get install sudo
 
-# Set a working directory
-WORKDIR /workspace
+# Clean up
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Create a non-root user
+RUN useradd -m -s /bin/bash user && \
+    echo "user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Switch to the non-root user
+USER user
+
+# Set up the working directory
+WORKDIR /home/user
