@@ -1,5 +1,4 @@
-# Use Ubuntu 22.04 as the base image
-FROM ubuntu:22.04
+FROM ubuntu:latest
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -10,6 +9,7 @@ RUN apt-get install -y \
 	openocd \
 	gdb-multiarch \
 	vim \
+	neovim \
 	adb \
 	acpica-tools \
 	autoconf \
@@ -46,7 +46,6 @@ RUN apt-get install -y \
 	libusb-1.0-0-dev \
 	make \
 	mtools \
-	netcat \
 	ninja-build \
 	python3-cryptography \
 	python3-pip \
